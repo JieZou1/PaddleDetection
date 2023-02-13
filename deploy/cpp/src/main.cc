@@ -170,11 +170,11 @@ void PredictVideo(const std::string& video_path,
   }
 
   // Get Video info : resolution, fps, frame count
-  int video_width = static_cast<int>(capture.get(CV_CAP_PROP_FRAME_WIDTH));
-  int video_height = static_cast<int>(capture.get(CV_CAP_PROP_FRAME_HEIGHT));
-  int video_fps = static_cast<int>(capture.get(CV_CAP_PROP_FPS));
+  int video_width = static_cast<int>(capture.get(cv::CAP_PROP_FRAME_WIDTH));
+  int video_height = static_cast<int>(capture.get(cv::CAP_PROP_FRAME_HEIGHT));
+  int video_fps = static_cast<int>(capture.get(cv::CAP_PROP_FPS));
   int video_frame_count =
-      static_cast<int>(capture.get(CV_CAP_PROP_FRAME_COUNT));
+      static_cast<int>(capture.get(cv::CAP_PROP_FRAME_COUNT));
   printf("fps: %d, frame_count: %d\n", video_fps, video_frame_count);
 
   // Create VideoWriter for output
@@ -332,7 +332,7 @@ void PredictImage(const std::vector<std::string> all_img_paths,
         cv::Mat vis_img = PaddleDetection::VisualizeResult(
             im, im_result, labels, colormap, is_rbox);
         std::vector<int> compression_params;
-        compression_params.push_back(CV_IMWRITE_JPEG_QUALITY);
+        compression_params.push_back(cv::IMWRITE_JPEG_QUALITY);
         compression_params.push_back(95);
         std::string output_path(output_dir);
         if (output_dir.rfind(OS_PATH_SEP) != output_dir.size() - 1) {
