@@ -46,7 +46,7 @@ class SDE_Detector(Detector):
     Args:
         model_dir (str): root path of model.pdiparams, model.pdmodel and infer_cfg.yml
         tracker_config (str): tracker config path
-        device (str): Choose the device you want to run, it can be: CPU/GPU/XPU, default is CPU
+        device (str): Choose the device you want to run, it can be: CPU/GPU/XPU/NPU, default is CPU
         run_mode (str): mode of running(paddle/trt_fp32/trt_fp16)
         batch_size (int): size of pre batch in inference
         trt_min_shape (int): min shape for dynamic shape in trt
@@ -681,8 +681,9 @@ class SDE_Detector(Detector):
             if mot_skip_frame_num > 1 and frame_id > 0 and frame_id % mot_skip_frame_num > 0:
                 reuse_det_result = True
             seq_name = video_out_name.split('.')[0]
+            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             mot_results = self.predict_image(
-                [frame],
+                [frame_rgb],
                 visual=False,
                 seq_name=seq_name,
                 reuse_det_result=reuse_det_result,
@@ -946,7 +947,7 @@ if __name__ == '__main__':
     FLAGS = parser.parse_args()
     print_arguments(FLAGS)
     FLAGS.device = FLAGS.device.upper()
-    assert FLAGS.device in ['CPU', 'GPU', 'XPU'
-                            ], "device should be CPU, GPU or XPU"
+    assert FLAGS.device in ['CPU', 'GPU', 'XPU', 'NPU'
+                            ], "device should be CPU, GPU, NPU or XPU"
 
     main()
